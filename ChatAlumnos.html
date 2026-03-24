@@ -1,0 +1,1178 @@
+﻿<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aprendamos Juntos CCAV</title>
+    <style>
+        /* ===== Reset y Base ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #FFFFFF;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* ===== Encabezado fijo ===== */
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #006600, #008000);
+            padding: 0 28px;
+            height: 62px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, .3);
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title .logo-icon {
+            font-size: 1.6rem;
+        }
+
+        .header h1 {
+            font-size: 1.35rem;
+            color: #FFD700;
+            letter-spacing: .5px;
+            font-weight: 700;
+        }
+
+        .header-buttons { display: flex; gap: 10px; }
+
+        .btn {
+            padding: 9px 22px;
+            border: 2px solid transparent;
+            border-radius: 24px;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s ease;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+
+        .btn:hover { transform: scale(1.04); }
+        .btn:active { transform: scale(.97); }
+
+        .btn-login {
+            background-color: #FFD700;
+            color: #333;
+        }
+        .btn-login:hover { background-color: #ffce00; }
+
+        .btn-logout {
+            background-color: transparent;
+            color: #fff;
+            border-color: #fff;
+            display: none;
+        }
+        .btn-logout:hover { background-color: rgba(255,255,255,.15); }
+
+        .btn-register-nav {
+            background-color: #fff;
+            color: #008000;
+        }
+        .btn-register-nav:hover { background-color: #f0f0f0; }
+
+        /* ===== Contenido principal ===== */
+        .main {
+            margin-top: 62px;
+            padding: 36px 20px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== Vistas ===== */
+        .view { display: none; }
+        .view.active { display: block; animation: fadeIn .35s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== Bienvenida (Home) ===== */
+        .welcome-section {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+
+        .welcome-section .emoji-big { font-size: 4rem; margin-bottom: 16px; }
+
+        .welcome-section h2 {
+            color: #008000;
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .welcome-section p {
+            color: #555;
+            font-size: 1.1rem;
+            max-width: 560px;
+            margin: 0 auto 28px;
+            line-height: 1.6;
+        }
+
+        .welcome-section .btn-hero {
+            padding: 14px 36px;
+            font-size: 1rem;
+            background: #008000;
+            color: #fff;
+            border-radius: 28px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background .2s;
+        }
+
+        .welcome-section .btn-hero:hover { background: #006600; }
+
+        /* ===== Tarjetas de formulario ===== */
+        .form-card {
+            background: #fff;
+            border: 2px solid #008000;
+            border-radius: 18px;
+            padding: 36px 32px;
+            max-width: 440px;
+            margin: 30px auto;
+            box-shadow: 0 6px 24px rgba(0, 128, 0, .1);
+        }
+
+        .form-card h2 {
+            text-align: center;
+            color: #008000;
+            margin-bottom: 6px;
+            font-size: 1.5rem;
+        }
+
+        .form-card .form-subtitle {
+            text-align: center;
+            color: #777;
+            font-size: .88rem;
+            margin-bottom: 24px;
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #008000;
+            font-size: .9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 11px 16px;
+            border: 1.5px solid #ccc;
+            border-radius: 12px;
+            font-size: .95rem;
+            transition: border-color .2s, box-shadow .2s;
+            background: #fafafa;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #008000;
+            box-shadow: 0 0 0 3px rgba(0, 128, 0, .12);
+            background: #fff;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #008000, #006600);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity .2s;
+            margin-top: 4px;
+        }
+
+        .btn-submit:hover { opacity: .9; }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 16px;
+            font-size: .85rem;
+            color: #666;
+        }
+
+        .form-footer a {
+            color: #008000;
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        .error-msg {
+            color: #d32f2f;
+            font-size: .8rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .success-msg {
+            color: #008000;
+            background: #e8f5e9;
+            border: 1px solid #a5d6a7;
+            border-radius: 10px;
+            padding: 10px 14px;
+            text-align: center;
+            font-size: .88rem;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .login-error {
+            color: #d32f2f;
+            background: #fdecea;
+            border: 1px solid #f5c6cb;
+            border-radius: 10px;
+            padding: 10px 14px;
+            text-align: center;
+            font-size: .88rem;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        /* ===== Vista Chat ===== */
+        .chat-welcome {
+            text-align: center;
+            padding: 20px 20px 16px;
+        }
+
+        .chat-welcome h2 {
+            color: #008000;
+            font-size: 1.6rem;
+            margin-bottom: 4px;
+        }
+
+        .chat-welcome p {
+            color: #777;
+            font-size: .95rem;
+        }
+
+        .chat-container {
+            display: flex;
+            border: 2px solid #008000;
+            border-radius: 18px;
+            overflow: hidden;
+            height: 530px;
+            margin-top: 16px;
+            box-shadow: 0 6px 24px rgba(0, 128, 0, .08);
+        }
+
+        /* --- Sidebar contactos --- */
+        .contacts-panel {
+            width: 290px;
+            min-width: 230px;
+            background: #f4faf4;
+            border-right: 2px solid #008000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contacts-panel-header {
+            padding: 16px 18px;
+            color: #008000;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-bottom: 1px solid #c8e6c9;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contacts-list {
+            flex: 1;
+            overflow-y: auto;
+            list-style: none;
+        }
+
+        .contacts-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: background .15s;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .contacts-list li:hover,
+        .contacts-list li.active {
+            background-color: #dcedc8;
+        }
+
+        .avatar {
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #008000, #00a000);
+            color: #FFD700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.05rem;
+            flex-shrink: 0;
+        }
+
+        .contact-info { overflow: hidden; }
+        .contact-name { font-weight: 600; color: #333; font-size: .92rem; }
+        .contact-course { font-size: .76rem; color: #888; margin-top: 2px; }
+        .contact-status {
+            font-size: .72rem;
+            color: #4caf50;
+            margin-top: 1px;
+        }
+
+        /* --- Área de conversación --- */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+        }
+
+        .chat-area-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #008000, #006600);
+            color: #FFD700;
+            font-weight: 600;
+            font-size: 1.02rem;
+        }
+
+        .chat-area-header .avatar {
+            width: 36px; height: 36px;
+            font-size: .9rem;
+            background: #FFD700;
+            color: #008000;
+        }
+
+        .chat-area-header .header-contact-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-area-header .header-contact-name {
+            font-size: .95rem;
+        }
+
+        .chat-area-header .header-contact-status {
+            font-size: .72rem;
+            color: #c8e6c9;
+            font-weight: 400;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #fafff9;
+        }
+
+        .chat-placeholder {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 1rem;
+            gap: 12px;
+        }
+
+        .chat-placeholder .placeholder-icon { font-size: 3rem; }
+
+        .msg {
+            max-width: 72%;
+            padding: 10px 16px;
+            border-radius: 18px;
+            font-size: .9rem;
+            line-height: 1.5;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0,0,0,.06);
+        }
+
+        .msg.received {
+            align-self: flex-start;
+            background: #e8f5e9;
+            color: #333;
+            border-bottom-left-radius: 4px;
+        }
+
+        .msg.sent {
+            align-self: flex-end;
+            background: #008000;
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .msg .time {
+            display: block;
+            font-size: .68rem;
+            margin-top: 4px;
+            opacity: .55;
+            text-align: right;
+        }
+
+        /* Input de mensaje */
+        .chat-input-bar {
+            display: flex;
+            gap: 10px;
+            padding: 14px 18px;
+            border-top: 1px solid #e0e0e0;
+            background: #f9f9f9;
+        }
+
+        .chat-input-bar input {
+            flex: 1;
+            padding: 11px 18px;
+            border: 1.5px solid #ccc;
+            border-radius: 24px;
+            font-size: .92rem;
+            outline: none;
+            transition: border-color .2s;
+            background: #fff;
+        }
+
+        .chat-input-bar input:focus { border-color: #008000; }
+
+        .btn-send {
+            padding: 11px 24px;
+            background: #008000;
+            color: #fff;
+            border: none;
+            border-radius: 24px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .2s;
+            font-size: .88rem;
+        }
+
+        .btn-send:hover { background: #006600; }
+
+        /* ===== Logo CCAV ===== */
+        .header-title .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px; height: 38px;
+            background: #FFD700;
+            color: #008000;
+            font-size: .7rem;
+            font-weight: 800;
+            border-radius: 6px;
+            letter-spacing: .5px;
+            box-shadow: 0 1px 4px rgba(0,0,0,.2);
+            line-height: 1;
+        }
+
+        .welcome-section .emoji-big {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 90px; height: 90px;
+            background: linear-gradient(135deg, #008000, #006600);
+            color: #FFD700;
+            font-size: 1.4rem;
+            font-weight: 800;
+            border-radius: 14px;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 16px rgba(0, 128, 0, .25);
+            border: 3px solid #FFD700;
+        }
+
+        /* ===== Tabla de alumnos ===== */
+        .sample-students {
+            max-width: 560px;
+            margin: 30px auto 0;
+            text-align: left;
+        }
+
+        .sample-students h3 {
+            text-align: center;
+            color: #008000;
+            margin-bottom: 14px;
+            font-size: 1.15rem;
+        }
+
+        .sample-students table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 128, 0, .1);
+        }
+
+        .sample-students thead th {
+            background: #008000;
+            color: #FFD700;
+            padding: 12px 16px;
+            font-size: .88rem;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .sample-students tbody td {
+            padding: 10px 16px;
+            font-size: .88rem;
+            border-bottom: 1px solid #e0e0e0;
+            color: #333;
+        }
+
+        .sample-students tbody tr:nth-child(even) { background: #f4faf4; }
+        .sample-students tbody tr:hover { background: #dcedc8; }
+
+        .sample-students .hint {
+            text-align: center;
+            margin-top: 12px;
+            font-size: .82rem;
+            color: #888;
+        }
+
+        /* ===== Responsive - Multidispositivo ===== */
+
+        /* --- Tablet vertical y m&oacute;vil grande (max 900px) --- */
+        @media (max-width: 900px) {
+            .main { padding: 28px 16px; }
+            .form-card { padding: 28px 24px; max-width: 400px; }
+            .welcome-section h2 { font-size: 1.6rem; }
+            .welcome-section p { font-size: 1rem; }
+            .sample-students { max-width: 100%; }
+            .chat-container { height: 480px; }
+            .contacts-panel { width: 240px; min-width: 200px; }
+        }
+
+        /* --- M&oacute;vil (max 700px) --- */
+        @media (max-width: 700px) {
+            .header { padding: 0 12px; height: 56px; }
+            .header h1 { font-size: .95rem; }
+            .header-title .logo-icon { width: 32px; height: 32px; font-size: .6rem; }
+            .btn { padding: 7px 12px; font-size: .75rem; letter-spacing: .2px; }
+
+            .main { margin-top: 56px; padding: 20px 12px; }
+
+            .welcome-section { padding: 30px 10px 20px; }
+            .welcome-section .emoji-big { width: 70px; height: 70px; font-size: 1.1rem; }
+            .welcome-section h2 { font-size: 1.3rem; }
+            .welcome-section p { font-size: .92rem; }
+            .welcome-section .btn-hero { padding: 12px 28px; font-size: .92rem; }
+
+            .form-card { padding: 24px 18px; margin: 20px auto; border-radius: 14px; }
+            .form-card h2 { font-size: 1.25rem; }
+            .form-group input, .form-group select { padding: 10px 14px; font-size: .9rem; }
+            .btn-submit { padding: 12px; font-size: .92rem; }
+
+            .sample-students { margin: 20px auto 0; }
+            .sample-students h3 { font-size: 1rem; }
+            .sample-students thead th { padding: 10px 10px; font-size: .8rem; }
+            .sample-students tbody td { padding: 8px 10px; font-size: .8rem; }
+
+            .chat-welcome h2 { font-size: 1.3rem; }
+            .chat-container {
+                flex-direction: column;
+                height: auto;
+                border-radius: 14px;
+            }
+            .contacts-panel {
+                width: 100%;
+                min-width: unset;
+                border-right: none;
+                border-bottom: 2px solid #008000;
+                max-height: 200px;
+            }
+            .chat-area { min-height: 350px; }
+            .chat-area-header { padding: 10px 14px; font-size: .92rem; }
+            .chat-messages { padding: 14px; }
+            .msg { max-width: 85%; font-size: .85rem; }
+            .chat-input-bar { padding: 10px 12px; gap: 8px; }
+            .chat-input-bar input { padding: 10px 14px; font-size: .88rem; }
+            .btn-send { padding: 10px 18px; font-size: .82rem; }
+        }
+
+        /* --- M&oacute;vil peque&ntilde;o (max 420px) --- */
+        @media (max-width: 420px) {
+            .header { padding: 0 8px; height: 50px; }
+            .header h1 { font-size: .82rem; letter-spacing: 0; }
+            .header-title .logo-icon { width: 28px; height: 28px; font-size: .55rem; }
+            .header-title { gap: 6px; }
+            .header-buttons { gap: 4px; }
+            .btn { padding: 5px 8px; font-size: .68rem; border-radius: 16px; }
+
+            .main { margin-top: 50px; padding: 14px 8px; }
+
+            .welcome-section { padding: 20px 6px 14px; }
+            .welcome-section .emoji-big { width: 56px; height: 56px; font-size: .9rem; border-radius: 10px; }
+            .welcome-section h2 { font-size: 1.1rem; }
+            .welcome-section p { font-size: .85rem; max-width: 100%; }
+            .welcome-section .btn-hero { padding: 10px 22px; font-size: .85rem; }
+
+            .form-card { padding: 18px 14px; border-radius: 12px; }
+            .form-card h2 { font-size: 1.1rem; }
+            .form-card .form-subtitle { font-size: .8rem; }
+            .form-group label { font-size: .82rem; }
+            .form-group input, .form-group select { padding: 9px 12px; font-size: .85rem; border-radius: 10px; }
+            .btn-submit { padding: 11px; font-size: .88rem; border-radius: 10px; }
+            .form-footer { font-size: .78rem; }
+
+            .sample-students h3 { font-size: .92rem; }
+            .sample-students thead th { padding: 8px 6px; font-size: .72rem; }
+            .sample-students tbody td { padding: 7px 6px; font-size: .72rem; }
+            .sample-students .hint { font-size: .74rem; }
+
+            .chat-welcome h2 { font-size: 1.1rem; }
+            .chat-welcome p { font-size: .85rem; }
+            .chat-container { border-radius: 10px; }
+            .contacts-panel { max-height: 170px; }
+            .contacts-panel-header { padding: 10px 12px; font-size: .9rem; }
+            .contacts-list li { padding: 10px 12px; gap: 10px; }
+            .avatar { width: 36px; height: 36px; font-size: .9rem; }
+            .contact-name { font-size: .84rem; }
+            .contact-course { font-size: .7rem; }
+            .chat-area { min-height: 300px; }
+            .chat-area-header { padding: 8px 10px; font-size: .85rem; }
+            .chat-area-header .avatar { width: 30px; height: 30px; font-size: .75rem; }
+            .chat-messages { padding: 10px; gap: 8px; }
+            .msg { max-width: 90%; padding: 8px 12px; font-size: .82rem; border-radius: 14px; }
+            .chat-input-bar { padding: 8px; gap: 6px; }
+            .chat-input-bar input { padding: 9px 12px; font-size: .82rem; }
+            .btn-send { padding: 9px 14px; font-size: .78rem; }
+        }
+
+        /* --- Desktop grande (min 1200px) --- */
+        @media (min-width: 1200px) {
+            .main { max-width: 1100px; }
+            .chat-container { height: 600px; }
+            .contacts-panel { width: 320px; }
+            .welcome-section h2 { font-size: 2.2rem; }
+            .welcome-section p { font-size: 1.15rem; max-width: 640px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== ENCABEZADO FIJO ========== -->
+    <header class="header">
+        <div class="header-title">
+            <span class="logo-icon">CCAV</span>
+            <h1>Aprendamos Juntos CCAV</h1>
+        </div>
+        <div class="header-buttons">
+            <button class="btn btn-register-nav" id="btnNavRegister" onclick="showView('register')">Registrarse</button>
+            <button class="btn btn-login" id="btnNavLogin" onclick="showView('login')">Login</button>
+            <button class="btn btn-logout" id="btnNavLogout" onclick="logout()">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <!-- ========== CONTENIDO PRINCIPAL ========== -->
+    <div class="main">
+
+        <!-- ==== Vista: Inicio ==== -->
+        <section id="viewHome" class="view active">
+            <div class="welcome-section">
+                <div class="emoji-big">CCAV</div>
+                <h2>¡Bienvenido a Aprendamos Juntos CCAV!</h2>
+                <p>Una comunidad estudiantil para aprender, compartir y crecer juntos. Regístrate para conectarte con tus compañeros a través de nuestro chat.</p>
+                <button class="btn-hero" onclick="showView('register')">Comenzar ahora</button>
+            </div>
+        </section>
+
+        <!-- ==== Vista: Registro ==== -->
+        <section id="viewRegister" class="view">
+            <div class="form-card">
+                <h2>Registro de Alumno</h2>
+                <p class="form-subtitle">Completa tus datos para unirte a la comunidad</p>
+                <div class="success-msg" id="registerSuccess">&iexcl;Registro exitoso! Ahora puedes iniciar sesi&oacute;n.</div>
+                <form id="formRegister" onsubmit="return handleRegister(event)">
+                    <div class="form-group">
+                        <label for="regName">Nombre completo</label>
+                        <input type="text" id="regName" placeholder="Ej. María López" autocomplete="off" />
+                        <div class="error-msg" id="errName">Por favor ingresa tu nombre completo.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="regCourse">Grado</label>
+                        <select id="regCourse">
+                            <option value="">-- Selecciona un grado --</option>
+                            <option value="Sexto">Sexto</option>
+                            <option value="Séptimo">Séptimo</option>
+                            <option value="Octavo">Octavo</option>
+                            <option value="Noveno">Noveno</option>
+                            <option value="Décimo">Décimo</option>
+                            <option value="Undécimo">Undécimo</option>
+                        </select>
+                        <div class="error-msg" id="errCourse">Por favor selecciona un grado.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword">Contraseña</label>
+                        <input type="password" id="regPassword" placeholder="Mínimo 4 caracteres" />
+                        <div class="error-msg" id="errPassword">La contraseña debe tener al menos 4 caracteres.</div>
+                    </div>
+                    <button type="submit" class="btn-submit">Crear cuenta</button>
+                    <div class="form-footer">¿Ya tienes cuenta? <a onclick="showView('login')">Inicia sesión aquí</a></div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ==== Vista: Login ==== -->
+        <section id="viewLogin" class="view">
+            <div class="form-card">
+                <h2>Iniciar Sesi&oacute;n</h2>
+                <p class="form-subtitle">Ingresa tus credenciales para acceder al chat</p>
+                <div class="login-error" id="loginError">Nombre o contrase&ntilde;a incorrectos. Intenta de nuevo.</div>
+                <form id="formLogin" onsubmit="return handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginName">Nombre</label>
+                        <input type="text" id="loginName" placeholder="Tu nombre registrado" autocomplete="off" />
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Contraseña</label>
+                        <input type="password" id="loginPassword" placeholder="Tu contraseña" />
+                    </div>
+                    <button type="submit" class="btn-submit">Entrar</button>
+                    <div class="form-footer">&iquest;No tienes cuenta? <a onclick="showView('register')">Reg&iacute;strate aqu&iacute;</a></div>
+                </form>
+            </div>
+
+            <div class="sample-students">
+                <h3>Alumnos registrados</h3>
+                <div id="tablaAlumnosLogin"></div>
+                <p class="hint">Escribe el nombre y la contrase&ntilde;a de cualquier alumno para ingresar.</p>
+            </div>
+        </section>
+
+        <!-- ==== Vista: Chat ==== -->
+        <section id="viewChat" class="view">
+            <div class="chat-welcome">
+                <h2 id="chatGreeting">¡Hola!</h2>
+                <p>Selecciona un compañero de la lista para iniciar una conversación.</p>
+            </div>
+
+            <div class="chat-container">
+                <!-- Panel de contactos -->
+                <div class="contacts-panel">
+                    <div class="contacts-panel-header">
+                        Compa&ntilde;eros
+                    </div>
+                    <ul class="contacts-list" id="contactsList"></ul>
+                </div>
+
+                <!-- Área de conversación -->
+                <div class="chat-area" id="chatArea">
+                    <div class="chat-placeholder" id="chatPlaceholder">
+                        <span class="placeholder-icon">&#9993;</span>
+                        <span>Selecciona un contacto para chatear</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ========== JAVASCRIPT ========== -->
+    <script>
+        // ===== Datos iniciales de ejemplo =====
+        var alumnosDefault = [
+            { nombre: "Carlos Garc\u00eda",    curso: "Sexto",    password: "1234" },
+            { nombre: "Ana Mart\u00ednez",     curso: "S\u00e9ptimo",  password: "1234" },
+            { nombre: "Luis Rodr\u00edguez",   curso: "Octavo",   password: "1234" },
+            { nombre: "Sof\u00eda P\u00e9rez",      curso: "Noveno",   password: "1234" },
+            { nombre: "Diego Hern\u00e1ndez",  curso: "D\u00e9cimo",   password: "1234" },
+            { nombre: "Valentina Torres", curso: "Und\u00e9cimo", password: "1234" }
+        ];
+
+        var conversacionesDefault = {
+            "Carlos Garc\u00eda": [
+                { from: "Carlos Garc\u00eda", text: "\u00a1Hola! \u00bfC\u00f3mo vas con el ejercicio de \u00e1lgebra?", time: "10:02 AM" },
+                { from: "yo", text: "Bien, me falta el punto 3. \u00bfT\u00fa ya lo terminaste?", time: "10:04 AM" },
+                { from: "Carlos Garc\u00eda", text: "S\u00ed, si quieres te explico. Es sobre factorizaci\u00f3n.", time: "10:05 AM" },
+                { from: "yo", text: "\u00a1Genial! Te escribo en un rato para repasar juntos.", time: "10:06 AM" }
+            ],
+            "Ana Mart\u00ednez": [
+                { from: "Ana Mart\u00ednez", text: "\u00bfViste el video de biolog\u00eda que dej\u00f3 la profe?", time: "09:30 AM" },
+                { from: "yo", text: "S\u00ed, estuvo muy interesante el tema de ecosistemas.", time: "09:32 AM" },
+                { from: "Ana Mart\u00ednez", text: "\u00bfHacemos el resumen juntos ma\u00f1ana?", time: "09:33 AM" },
+                { from: "yo", text: "\u00a1Dale! Nos vemos en la biblioteca a las 3.", time: "09:35 AM" }
+            ],
+            "Luis Rodr\u00edguez": [
+                { from: "Luis Rodr\u00edguez", text: "\u00bfAlguien tiene las fechas del examen de historia?", time: "11:15 AM" },
+                { from: "yo", text: "Es el pr\u00f3ximo viernes, tema: Revoluci\u00f3n Industrial.", time: "11:17 AM" },
+                { from: "Luis Rodr\u00edguez", text: "Gracias, me pongo a estudiar desde hoy.", time: "11:18 AM" },
+                { from: "yo", text: "Si necesitas apuntes, te paso los m\u00edos.", time: "11:20 AM" }
+            ],
+            "Sof\u00eda P\u00e9rez": [
+                { from: "Sof\u00eda P\u00e9rez", text: "Hi! Do you want to practice English conversation?", time: "02:00 PM" },
+                { from: "yo", text: "Sure! Let's talk about our favorite hobbies.", time: "02:02 PM" },
+                { from: "Sof\u00eda P\u00e9rez", text: "Great idea! I like reading and painting. What about you?", time: "02:03 PM" },
+                { from: "yo", text: "I enjoy playing guitar and watching documentaries.", time: "02:05 PM" },
+                { from: "Sof\u00eda P\u00e9rez", text: "Cool! We should practice more often :)", time: "02:06 PM" }
+            ],
+            "Diego Hern\u00e1ndez": [
+                { from: "Diego Hern\u00e1ndez", text: "\u00bfYa probaste el programa que hicimos en clase?", time: "03:10 PM" },
+                { from: "yo", text: "S\u00ed, pero me da un error en la l\u00ednea 12.", time: "03:12 PM" },
+                { from: "Diego Hern\u00e1ndez", text: "Revisa el punto y coma al final, a m\u00ed me pas\u00f3 lo mismo.", time: "03:13 PM" },
+                { from: "yo", text: "\u00a1Era eso! Ya funciona. Gracias, Diego.", time: "03:15 PM" }
+            ],
+            "Valentina Torres": [
+                { from: "Valentina Torres", text: "\u00bfLeyeron el cuento que dej\u00f3 el profe de literatura?", time: "04:20 PM" },
+                { from: "yo", text: "S\u00ed, me encant\u00f3. El final fue inesperado.", time: "04:22 PM" },
+                { from: "Valentina Torres", text: "A m\u00ed tambi\u00e9n. \u00bfQuieres hacer el an\u00e1lisis juntos?", time: "04:23 PM" },
+                { from: "yo", text: "Claro, as\u00ed nos queda mejor el trabajo.", time: "04:25 PM" }
+            ]
+        };
+
+        // ===== sessionStorage: cargar o inicializar =====
+        function cargarDeSesion(clave, valorDefault) {
+            var datos = sessionStorage.getItem(clave);
+            if (datos) {
+                try { return JSON.parse(datos); } catch (e) { /* ignorar */ }
+            }
+            return valorDefault;
+        }
+
+        function guardarEnSesion(clave, valor) {
+            sessionStorage.setItem(clave, JSON.stringify(valor));
+        }
+
+        var alumnos        = cargarDeSesion('ccav_alumnos', alumnosDefault);
+        var conversaciones = cargarDeSesion('ccav_conversaciones', conversacionesDefault);
+        var currentUser    = cargarDeSesion('ccav_currentUser', null);
+        var activeContact  = cargarDeSesion('ccav_activeContact', null);
+
+        // ===== Navegaci\u00f3n de vistas =====
+        function showView(viewName) {
+            var views = document.querySelectorAll('.view');
+            for (var i = 0; i < views.length; i++) {
+                views[i].classList.remove('active');
+            }
+            var viewId = 'view' + viewName.charAt(0).toUpperCase() + viewName.slice(1);
+            var el = document.getElementById(viewId);
+            if (el) el.classList.add('active');
+            clearMessages();
+        }
+
+        function clearMessages() {
+            var errors = document.querySelectorAll('.error-msg');
+            for (var i = 0; i < errors.length; i++) errors[i].style.display = 'none';
+            document.getElementById('registerSuccess').style.display = 'none';
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        // ===== Registro =====
+        function handleRegister(e) {
+            e.preventDefault();
+            clearMessages();
+            var name     = document.getElementById('regName').value.trim();
+            var course   = document.getElementById('regCourse').value;
+            var password = document.getElementById('regPassword').value;
+            var valid    = true;
+
+            if (!name || name.length < 2) {
+                document.getElementById('errName').textContent = 'Por favor ingresa tu nombre completo.';
+                document.getElementById('errName').style.display = 'block';
+                valid = false;
+            }
+            if (!course) {
+                document.getElementById('errCourse').style.display = 'block';
+                valid = false;
+            }
+            if (password.length < 4) {
+                document.getElementById('errPassword').style.display = 'block';
+                valid = false;
+            }
+            if (!valid) return false;
+
+            // Verificar duplicado
+            for (var i = 0; i < alumnos.length; i++) {
+                if (alumnos[i].nombre.toLowerCase() === name.toLowerCase()) {
+                    document.getElementById('errName').textContent = 'Este nombre ya est\u00e1 registrado. Usa otro o inicia sesi\u00f3n.';
+                    document.getElementById('errName').style.display = 'block';
+                    return false;
+                }
+            }
+
+            // Guardar alumno en memoria y en sessionStorage
+            alumnos.push({ nombre: name, curso: course, password: password });
+            conversaciones[name] = [
+                { from: name, text: "\u00a1Hola! Acabo de unirme a la plataforma.", time: formatTime() },
+                { from: "yo", text: "\u00a1Bienvenido/a! Aqu\u00ed aprendemos juntos!", time: formatTime() }
+            ];
+            guardarEnSesion('ccav_alumnos', alumnos);
+            guardarEnSesion('ccav_conversaciones', conversaciones);
+            renderTablaAlumnos();
+
+            document.getElementById('formRegister').reset();
+            document.getElementById('registerSuccess').style.display = 'block';
+            return false;
+        }
+
+        // ===== Login =====
+        function handleLogin(e) {
+            e.preventDefault();
+            clearMessages();
+            var name     = document.getElementById('loginName').value.trim();
+            var password = document.getElementById('loginPassword').value;
+            var found    = null;
+
+            for (var i = 0; i < alumnos.length; i++) {
+                if (alumnos[i].nombre.toLowerCase() === name.toLowerCase() && alumnos[i].password === password) {
+                    found = alumnos[i];
+                    break;
+                }
+            }
+            if (!found) {
+                document.getElementById('loginError').style.display = 'block';
+                return false;
+            }
+
+            currentUser = found;
+            var saludo = '\u00a1Hola, ' + escapeHtml(found.nombre);
+            if (found.nombre.toLowerCase() === 'ana maria') saludo += ' <span style="color:#e53935;font-size:1.3em">\u2665</span>';
+            saludo += '!';
+            document.getElementById('chatGreeting').innerHTML = saludo;
+            document.getElementById('btnNavLogin').style.display    = 'none';
+            document.getElementById('btnNavRegister').style.display = 'none';
+            document.getElementById('btnNavLogout').style.display   = 'inline-block';
+            activeContact = null;
+            guardarEnSesion('ccav_currentUser', currentUser);
+            guardarEnSesion('ccav_activeContact', activeContact);
+            renderContacts();
+            resetChatArea();
+            showView('chat');
+            return false;
+        }
+
+        // ===== Cerrar sesi\u00f3n =====
+        function logout() {
+            currentUser   = null;
+            activeContact = null;
+            guardarEnSesion('ccav_currentUser', null);
+            guardarEnSesion('ccav_activeContact', null);
+            document.getElementById('btnNavLogin').style.display    = 'inline-block';
+            document.getElementById('btnNavRegister').style.display = 'inline-block';
+            document.getElementById('btnNavLogout').style.display   = 'none';
+            document.getElementById('formLogin').reset();
+            showView('home');
+        }
+
+        // ===== Renderizar contactos =====
+        function renderContacts() {
+            var list = document.getElementById('contactsList');
+            list.innerHTML = '';
+            var statuses = ['En l\u00ednea', 'En l\u00ednea', 'Ausente', 'En l\u00ednea', 'Desconectado', 'En l\u00ednea'];
+            for (var i = 0; i < alumnos.length; i++) {
+                var a = alumnos[i];
+                if (currentUser && a.nombre === currentUser.nombre) continue;
+                var status = statuses[i % statuses.length];
+                var statusColor = status === 'En l\u00ednea' ? '#4caf50' : (status === 'Ausente' ? '#ff9800' : '#999');
+                var li = document.createElement('li');
+                li.setAttribute('data-name', a.nombre);
+                li.onclick = (function (nombre) {
+                    return function () { openChat(nombre); };
+                })(a.nombre);
+                li.innerHTML =
+                    '<div class="avatar">' + a.nombre.charAt(0).toUpperCase() + '</div>' +
+                    '<div class="contact-info">' +
+                        '<div class="contact-name">' + escapeHtml(a.nombre) + '</div>' +
+                        '<div class="contact-course">' + escapeHtml(a.curso) + '</div>' +
+                        '<div class="contact-status" style="color:' + statusColor + '">\u25CF ' + status + '</div>' +
+                    '</div>';
+                list.appendChild(li);
+            }
+        }
+
+        // ===== Resetear \u00e1rea de chat =====
+        function resetChatArea() {
+            var area = document.getElementById('chatArea');
+            area.innerHTML =
+                '<div class="chat-placeholder" id="chatPlaceholder">' +
+                    '<span class="placeholder-icon">&#9993;</span>' +
+                    '<span>Selecciona un contacto para chatear</span>' +
+                '</div>';
+        }
+
+        // ===== Abrir conversaci\u00f3n =====
+        function openChat(contactName) {
+            activeContact = contactName;
+            guardarEnSesion('ccav_activeContact', activeContact);
+            var items = document.querySelectorAll('.contacts-list li');
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.remove('active');
+                if (items[i].getAttribute('data-name') === contactName) items[i].classList.add('active');
+            }
+            var area  = document.getElementById('chatArea');
+            var msgs  = conversaciones[contactName] || [];
+            var initial = contactName.charAt(0).toUpperCase();
+            var html =
+                '<div class="chat-area-header">' +
+                    '<div class="avatar">' + initial + '</div>' +
+                    '<div class="header-contact-info">' +
+                        '<span class="header-contact-name">' + escapeHtml(contactName) + '</span>' +
+                        '<span class="header-contact-status">En l\u00ednea</span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="chat-messages" id="chatMessages">';
+            for (var i = 0; i < msgs.length; i++) {
+                var m   = msgs[i];
+                var cls = (m.from === 'yo') ? 'sent' : 'received';
+                html += '<div class="msg ' + cls + '">' + escapeHtml(m.text) + '<span class="time">' + escapeHtml(m.time) + '</span></div>';
+            }
+            html += '</div>' +
+                '<div class="chat-input-bar">' +
+                    '<input type="text" id="msgInput" placeholder="Escribe un mensaje..." />' +
+                    '<button class="btn-send" onclick="sendMessage()">Enviar</button>' +
+                '</div>';
+            area.innerHTML = html;
+            document.getElementById('msgInput').addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') sendMessage();
+            });
+            scrollChatToBottom();
+        }
+
+        // ===== Enviar mensaje =====
+        function sendMessage() {
+            if (!activeContact) return;
+            var input = document.getElementById('msgInput');
+            var text  = input.value.trim();
+            if (!text) return;
+            var timeStr = formatTime();
+            if (!conversaciones[activeContact]) conversaciones[activeContact] = [];
+            conversaciones[activeContact].push({ from: 'yo', text: text, time: timeStr });
+            guardarEnSesion('ccav_conversaciones', conversaciones);
+            input.value = '';
+            openChat(activeContact);
+            var respuestas = [
+                "\u00a1Interesante! Cu\u00e9ntame m\u00e1s :)",
+                "Buena idea, lo voy a revisar.",
+                "S\u00ed, estoy totalmente de acuerdo.",
+                "\u00a1Genial! Sigamos trabajando en eso.",
+                "No hab\u00eda pensado en eso, \u00a1gracias!",
+                "\u00bfNos reunimos para estudiar juntos?",
+                "Perfecto, ma\u00f1ana continuamos.",
+                "\u00a1Entendido!",
+                "Me parece muy bien, buen trabajo.",
+                "\u00a1Claro! Cuenta conmigo para el proyecto."
+            ];
+            var respuesta = respuestas[Math.floor(Math.random() * respuestas.length)];
+            var contact   = activeContact;
+            setTimeout(function () {
+                conversaciones[contact].push({ from: contact, text: respuesta, time: formatTime() });
+                guardarEnSesion('ccav_conversaciones', conversaciones);
+                if (activeContact === contact) openChat(contact);
+            }, 800 + Math.random() * 700);
+        }
+
+        // ===== Utilidades =====
+        function formatTime() {
+            var now     = new Date();
+            var hours   = now.getHours();
+            var minutes = now.getMinutes();
+            var ampm    = hours >= 12 ? 'PM' : 'AM';
+            hours   = hours % 12;
+            hours   = hours ? hours : 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            return hours + ':' + minutes + ' ' + ampm;
+        }
+
+        function scrollChatToBottom() {
+            var el = document.getElementById('chatMessages');
+            if (el) el.scrollTop = el.scrollHeight;
+        }
+
+        function escapeHtml(str) {
+            var div = document.createElement('div');
+            div.appendChild(document.createTextNode(str));
+            return div.innerHTML;
+        }
+
+        // ===== Renderizar tabla de alumnos en Login =====
+        function renderTablaAlumnos() {
+            var container = document.getElementById('tablaAlumnosLogin');
+            if (!container) return;
+            var html = '<table><thead><tr><th>Nombre</th><th>Grado</th><th>Contrase\u00f1a</th></tr></thead><tbody>';
+            for (var i = 0; i < alumnosDefault.length; i++) {
+                var a = alumnosDefault[i];
+                if (a.nombre.toLowerCase() === 'ana maria') continue;
+                html += '<tr><td>' + escapeHtml(a.nombre) + '</td><td>' + escapeHtml(a.curso) + '</td><td>' + escapeHtml(a.password) + '</td></tr>';
+            }
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        // ===== Cargar alumno desde el servidor =====
+        function cargarAlumnoDelServidor(callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'AlumnoServidor.ashx', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    try {
+                        var alumnoServidor = JSON.parse(xhr.responseText);
+                        if (alumnoServidor && alumnoServidor.nombre) {
+                            var existe = false;
+                            for (var i = 0; i < alumnos.length; i++) {
+                                if (alumnos[i].nombre.toLowerCase() === alumnoServidor.nombre.toLowerCase()) {
+                                    existe = true;
+                                    break;
+                                }
+                            }
+                            if (!existe) {
+                                alumnos.push(alumnoServidor);
+                                conversaciones[alumnoServidor.nombre] = [
+                                    { from: alumnoServidor.nombre, text: "\u00a1Hola! Soy " + alumnoServidor.nombre + ", estoy en " + alumnoServidor.curso + ".", time: "08:00 AM" },
+                                    { from: "yo", text: "\u00a1Bienvenida! Aqu\u00ed aprendemos juntos.", time: "08:01 AM" }
+                                ];
+                                guardarEnSesion('ccav_alumnos', alumnos);
+                                guardarEnSesion('ccav_conversaciones', conversaciones);
+                            }
+                        }
+                    } catch (e) { /* ignorar */ }
+                    if (callback) callback();
+                }
+            };
+            xhr.send();
+        }
+
+        // ===== Restaurar sesi\u00f3n al cargar =====
+        cargarAlumnoDelServidor(function () {
+            renderTablaAlumnos();
+            if (currentUser) {
+                var saludo = '\u00a1Hola, ' + escapeHtml(currentUser.nombre);
+                if (currentUser.nombre.toLowerCase() === 'ana maria') saludo += ' <span style="color:#e53935;font-size:1.3em">\u2665</span>';
+                saludo += '!';
+                document.getElementById('chatGreeting').innerHTML = saludo;
+                document.getElementById('btnNavLogin').style.display    = 'none';
+                document.getElementById('btnNavRegister').style.display = 'none';
+                document.getElementById('btnNavLogout').style.display   = 'inline-block';
+                renderContacts();
+                if (activeContact) { openChat(activeContact); } else { resetChatArea(); }
+                showView('chat');
+            }
+        });
+    </script>
+</body>
+</html>
